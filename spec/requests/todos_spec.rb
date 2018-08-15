@@ -1,16 +1,18 @@
+# spec/requests/todos_spec.rb
 require 'rails_helper'
 
 RSpec.describe 'Todos API', type: :request do
-  # Initialize test data
+  # initialize test data
   let!(:todos) { create_list(:todo, 10) }
   let(:todo_id) { todos.first.id }
 
-  # Test suite for GET /Todos
+  # Test suite for GET /todos
   describe 'GET /todos' do
-    # Make HTTP get request before each example
+    # make HTTP get request before each example
     before { get '/todos' }
 
     it 'returns todos' do
+      # Note `json` is a custom helper to parse JSON responses
       expect(json).not_to be_empty
       expect(json.size).to eq(10)
     end
@@ -48,9 +50,9 @@ RSpec.describe 'Todos API', type: :request do
     end
   end
 
-  # Test suite for POST /Todos
+  # Test suite for POST /todos
   describe 'POST /todos' do
-    # Valid payload
+    # valid payload
     let(:valid_attributes) { { title: 'Learn Elm', created_by: '1' } }
 
     context 'when the request is valid' do
@@ -73,17 +75,18 @@ RSpec.describe 'Todos API', type: :request do
       end
 
       it 'returns a validation failure message' do
-        expect(response.body).to match(/Validation failed: Created by can't be blank/)
+        expect(response.body)
+          .to match(/Validation failed: Created by can't be blank/)
       end
     end
   end
 
-  # Test Suite for PUT /todos/:id
+  # Test suite for PUT /todos/:id
   describe 'PUT /todos/:id' do
     let(:valid_attributes) { { title: 'Shopping' } }
 
     context 'when the record exists' do
-      before { put "/todos#{todo_id}", params: valid_attributes }
+      before { put "/todos/#{todo_id}", params: valid_attributes }
 
       it 'updates the record' do
         expect(response.body).to be_empty
