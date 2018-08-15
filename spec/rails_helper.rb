@@ -71,12 +71,12 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   # Add 'FactoryBot' methods
-  config.include FactoryBot::Syntax::methods
+  config.include FactoryBot::Syntax::Methods
 
   # Truncating all tables 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    DatabaseCleaner.strategy = :transation
+    DatabaseCleaner.strategy = :transaction
   end
 
   # Start transaction strategy as examples are run
